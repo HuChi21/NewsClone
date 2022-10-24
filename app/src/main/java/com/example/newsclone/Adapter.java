@@ -1,5 +1,6 @@
 package com.example.newsclone;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.newsclone.FragmentClass.ModelClass;
 
 import java.util.ArrayList;
@@ -19,53 +21,52 @@ import java.util.ArrayList;
 public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
     Context context;
-    ArrayList<ModelClass> modelClassesArrayList;
+    ArrayList<ModelClass> modelClassArrayList;
 
-    public Adapter(Context context, ArrayList<ModelClass> modelClassesArrayList) {
+    public Adapter(Context context, ArrayList<ModelClass> modelClassArrayList) {
         this.context = context;
-        this.modelClassesArrayList = modelClassesArrayList;
+        this.modelClassArrayList = modelClassArrayList;
     }
 
     @NonNull
     @Override
     public Adapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.layout_item,null,false);
+        View view= LayoutInflater.from(context).inflate(R.layout.layout_item,null,false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull Adapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull Adapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
+
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Integer(context,webView.class);
-                intent.putExtra("url",modelClassesArrayList.get(position).getUrl());
-                context.startActivities(intent);
+                Intent intent = new Intent(context,webView.class);
+                intent.putExtra("url",modelClassArrayList.get(position).getUrl());
             }
         });
-        holder.tTime.setText("Published At:"+modelClassesArrayList.get(position).getpublishedAt());
-        holder.tAuthor.setText(modelClassesArrayList.get(position).getAuthor());
-        holder.tHeading.setText(modelClassesArrayList.get(position).getTitle());
-        holder.tContent.setText(modelClassesArrayList.get(position).getDescription());
+        holder.tTime.setText("Published At:"+modelClassArrayList.get(position).getpublishedAt());
+        holder.tAuthor.setText(modelClassArrayList.get(position).getAuthor());
+        holder.tHeading.setText(modelClassArrayList.get(position).getTitle());
+        holder.tContent.setText(modelClassArrayList.get(position).getDescription());
+        Glide.with(context).load(modelClassArrayList.get(position).getUrlToImage()).into(holder.imageView);
 
-        Glide.with(context).load(modelClassesArrayList.get(position).getUrlToImage());
-        holder.tAuthor.setText(modelClassesArrayList.get(position).getAuthor());
-        holder.tAuthor.setText(modelClassesArrayList.get(position).getAuthor());
+
+
+
+
     }
-
-
 
     @Override
     public int getItemCount() {
-        return modelClassesArrayList.size();
+        return modelClassArrayList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+
         TextView tHeading,tContent,tAuthor,tTime;
         CardView cardView;
         ImageView imageView;
-
-
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -76,6 +77,5 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
             imageView=itemView.findViewById(R.id.imageview);
             cardView=itemView.findViewById(R.id.cardview);
         }
-
     }
 }

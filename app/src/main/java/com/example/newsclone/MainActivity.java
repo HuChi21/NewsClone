@@ -16,7 +16,6 @@ public class MainActivity extends AppCompatActivity {
     PagerAdapter pagerAdapter;
     Toolbar ttoolbar;
 
-    String getAPI = "2784fe81b45f4ad0a94dc4c61f4fbc9f";
 
 
     @Override
